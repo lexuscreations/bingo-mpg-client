@@ -1,0 +1,108 @@
+@use "sass:map";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// Utility classes for flexbox
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+// Text utilities
+.text-ellipsis {
+  @include truncate(1);
+}
+
+.text-ellipsis-2 {
+  @include truncate(2);
+}
+
+// Spacing utilities
+.m-auto {
+  margin: auto;
+}
+
+.mx-auto {
+  margin-inline: auto;
+}
+
+// Container
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-md);
+
+  @include media-up("sm") {
+    max-width: map.get($breakpoints, "sm");
+  }
+
+  @include media-up("md") {
+    max-width: map.get($breakpoints, "md");
+  }
+
+  @include media-up("lg") {
+    max-width: map.get($breakpoints, "lg");
+  }
+
+  @include media-up("xl") {
+    max-width: map.get($breakpoints, "xl");
+  }
+}
+
+// Grid utilities
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@include media-up("md") {
+  .grid-cols-2-md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// Visibility
+.hidden {
+  display: none;
+}
+
+@include media-up("md") {
+  .hidden-md {
+    display: none;
+  }
+}
+
+// Interactive
+.clickable {
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

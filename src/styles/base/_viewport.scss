@@ -1,0 +1,40 @@
+// Basic responsive & viewport setup
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Improve touch targets on mobile
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+
+  @media (max-width: 768px) {
+    min-height: 38px;
+
+    &[class*="icon"],
+    &[class*="chip"],
+    &[class*="btn-icon"],
+    &[class*="toggle"],
+    &[class*="copy"],
+    &[class*="dice"],
+    &[class*="refresh"] {
+      min-height: auto;
+    }
+  }
+}

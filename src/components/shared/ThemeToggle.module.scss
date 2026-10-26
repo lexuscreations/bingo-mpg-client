@@ -1,0 +1,51 @@
+.themeToggle {
+  border: 1px solid var(--border-card);
+  background: var(--bg-card-subtle);
+  padding: 6px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  user-select: none;
+
+  &:hover {
+    background: var(--bg-card);
+    border-color: var(--primary);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.label {
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+  .themeToggle {
+    padding: 6px 10px;
+    gap: 0;
+    min-height: auto;
+  }
+
+  .label {
+    display: none;
+  }
+}
