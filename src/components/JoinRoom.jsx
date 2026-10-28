@@ -11,46 +11,10 @@ import { BACKEND_URL } from "../utils/config";
 
 import styles from "./JoinRoom.module.scss";
 
-const FUN_NAMES = [
-  "LuckyTiger",
-  "BingoKing",
-  "SpeedyFox",
-  "GoldenAce",
-  "StarGazer",
-  "NeonStrike",
-  "PixelHero",
-  "CyberWolf",
-  "ShadowBlaze",
-  "CosmicRider",
-  "ThunderHawk",
-  "MysticOwl",
-];
+import { FUN_NAMES } from "../config/constants";
+import AIOpponentSelector from "./lobby/AIOpponentSelector";
+import TurnRuleSelector from "./lobby/TurnRuleSelector";
 
-const AI_OPPONENTS = [
-  {
-    id: "random",
-    name: "Random AI",
-    icon: "🎲",
-    desc: "Casual & unpredictable",
-  },
-  {
-    id: "pattern",
-    name: "Pattern AI",
-    icon: "🎯",
-    desc: "Strategic targeted lines",
-  },
-  { id: "smart", name: "Smart AI", icon: "🧠", desc: "Tactical & competitive" },
-];
-
-const PATTERNS = [
-  { id: "", name: "Random Pattern", icon: "🎲", desc: "Adaptive" },
-  { id: "Alice", name: "Alice", icon: "↔️", desc: "Row Strategy" },
-  { id: "Mike", name: "Mike", icon: "↕️", desc: "Column Strategy" },
-  { id: "Lisa", name: "Lisa", icon: "🔲", desc: "Boundary Strategy" },
-  { id: "Anna", name: "Anna", icon: "↗️", desc: "Diagonal Strategy" },
-  { id: "Tom", name: "Tom", icon: "⛶", desc: "Corner Strategy" },
-  { id: "Emma", name: "Emma", icon: "🎯", desc: "Center Strategy" },
-];
 
 function JoinRoom({ onCreateRoom, onJoinRoom }) {
   const [name, setName] = useState("");
@@ -62,10 +26,11 @@ function JoinRoom({ onCreateRoom, onJoinRoom }) {
   const [isValidating, setIsValidating] = useState(false);
   const [suggestedRoomIds, setSuggestedRoomIds] = useState([]);
 
-  // Game mode & AI states
+  // Game mode, AI, & turn rule states
   const [gameMode, setGameMode] = useState("friend"); // 'friend' or 'computer'
   const [aiOpponentType, setAiOpponentType] = useState("random"); // 'random', 'pattern', 'smart'
   const [selectedPattern, setSelectedPattern] = useState("");
+  const [firstTurnRule, setFirstTurnRule] = useState("alternating");
 
   // Generate suggested room IDs on mount & when in create mode
   useEffect(() => {
@@ -158,12 +123,12 @@ function JoinRoom({ onCreateRoom, onJoinRoom }) {
           type: aiOpponentType,
           pattern: aiOpponentType === "pattern" ? selectedPattern : null,
         };
-        onCreateRoom(name.trim(), null, aiConfig);
+        onCreateRoom(name.trim(), null, aiConfig, firstTurnRule);
       } else {
         const finalRoomId = useCustomRoomId
           ? customRoomId.trim().toUpperCase()
           : null;
-        onCreateRoom(name.trim(), finalRoomId, null);
+        onCreateRoom(name.trim(), finalRoomId, null, firstTurnRule);
       }
     }
   };
@@ -398,60 +363,22 @@ function JoinRoom({ onCreateRoom, onJoinRoom }) {
 
           {/* SECTION: PLAY WITH COMPUTER */}
           {gameMode === "computer" && (
-            <div className={styles.sectionBox}>
-              <span className={styles.subLabel}>Choose AI Opponent:</span>
-              <div className={styles.aiCardsGrid}>
-                {AI_OPPONENTS.map((ai) => {
-                  const isSelected = aiOpponentType === ai.id;
-                  return (
-                    <button
-                      key={ai.id}
-                      type="button"
-                      className={`${styles.aiCard} ${isSelected ? styles.aiActive : ""}`}
-                      onClick={() => setAiOpponentType(ai.id)}
-                    >
-                      <span className={styles.aiIcon}>{ai.icon}</span>
-                      <strong className={styles.aiTitle}>{ai.name}</strong>
-                      <small className={styles.aiDesc}>{ai.desc}</small>
-                      {isSelected && <span className={styles.aiCheck}>✓</span>}
-                    </button>
-                  );
-                })}
-              </div>
+            <AIOpponentSelector
+              aiOpponentType={aiOpponentType}
+              onAiTypeChange={setAiOpponentType}
+              selectedPattern={selectedPattern}
+              onPatternChange={setSelectedPattern}
+              styles={styles}
+            />
+          )}
 
-              {/* Specific Pattern selection when pattern opponent is chosen */}
-              {aiOpponentType === "pattern" && (
-                <div className={styles.patternBox}>
-                  <span className={styles.patternHeader}>
-                    Choose Specific Pattern Strategy:
-                  </span>
-                  <div className={styles.patternGrid}>
-                    {PATTERNS.map((pattern) => {
-                      const isSelected = selectedPattern === pattern.id;
-                      return (
-                        <button
-                          key={pattern.id}
-                          type="button"
-                          className={`${styles.patternChip} ${isSelected ? styles.patternActive : ""}`}
-                          onClick={() => setSelectedPattern(pattern.id)}
-                        >
-                          <span className={styles.patternIcon}>
-                            {pattern.icon}
-                          </span>
-                          <div className={styles.patternText}>
-                            <strong>{pattern.name}</strong>
-                            <small>{pattern.desc}</small>
-                          </div>
-                          {isSelected && (
-                            <span className={styles.patternCheck}>✓</span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
+          {/* SECTION: FIRST TURN RULE (Configured by Host when creating room) */}
+          {!isJoining && (
+            <TurnRuleSelector
+              firstTurnRule={firstTurnRule}
+              onChange={setFirstTurnRule}
+              styles={styles}
+            />
           )}
 
           {/* Main Action Submit Button */}

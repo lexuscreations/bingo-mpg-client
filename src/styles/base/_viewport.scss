@@ -33,7 +33,10 @@ textarea {
     &[class*="toggle"],
     &[class*="copy"],
     &[class*="dice"],
-    &[class*="refresh"] {
+    &[class*="refresh"],
+    &[class*="menu-trigger"],
+    &[class*="trigger"],
+    &[class*="kebab"] {
       min-height: auto;
     }
   }
