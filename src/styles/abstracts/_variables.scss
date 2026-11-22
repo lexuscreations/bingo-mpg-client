@@ -1,0 +1,62 @@
+// Colors
+$colors: (
+  "primary": (
+    "light": #4caf50,
+    "dark": #45a049,
+  ),
+  "background": (
+    "light": #ffffff,
+    "dark": #1a1a1a,
+  ),
+  "text": (
+    "light": #000000,
+    "dark": #ffffff,
+  ),
+  "surface": (
+    "light": #f5f5f5,
+    "dark": #2d2d2d,
+  ),
+  "border": (
+    "light": #ccc,
+    "dark": #404040,
+  ),
+);
+
+// Typography
+$font-sizes: (
+  "xs": clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem),
+  "sm": clamp(0.875rem, 0.8rem + 0.375vw, 1rem),
+  "base": clamp(1rem, 0.9rem + 0.5vw, 1.125rem),
+  "lg": clamp(1.125rem, 1rem + 0.625vw, 1.25rem),
+  "xl": clamp(1.25rem, 1.125rem + 0.75vw, 1.5rem),
+  "2xl": clamp(1.5rem, 1.25rem + 1.25vw, 2rem),
+);
+
+// Spacing
+$spacing: (
+  "xs": clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem),
+  "sm": clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem),
+  "md": clamp(1rem, 0.8rem + 1vw, 1.5rem),
+  "lg": clamp(1.5rem, 1.2rem + 1.5vw, 2rem),
+  "xl": clamp(2rem, 1.6rem + 2vw, 3rem),
+);
+
+// Breakpoints
+$breakpoints: (
+  "xs": 320px,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "2xl": 1400px,
+  "4k": 2160px,
+);
+
+// Z-index
+$z-index: (
+  "modal": 1000,
+  "overlay": 900,
+  "dropdown": 800,
+  "header": 700,
+  "footer": 600,
+);
